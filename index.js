@@ -12,6 +12,9 @@ button2.innerText = "Attack";
 let playerDamage = document.createElement("p");
 let enemyDamage = document.createElement("p");
 let text3 = document.createElement("p");
+let resumeButton = document.createElement("button");
+resumeButton.setAttribute("onclick", "resumeTravel()")
+resumeButton.innerText = "Resume Travel";
 
 /* Game Stats */
 let name;
@@ -105,7 +108,7 @@ function startGame() {
 function selectEnemy() {
     spawnChance = Math.random();
     if (currentRoomType === "dungeon" && spawnChance > .5) {
-        currentEnemy = random(dungeonEnemies);
+        currentEnemy = JSON.parse(JSON.stringify(random(dungeonEnemies)));
         spawnEnemy();
     }
     else if (currentRoomType === "cave" && spawnChance > .5) {
@@ -124,7 +127,7 @@ function spawnEnemy() {
     text2.innerText = "\nSuddenly, you see a " + currentEnemy[0].toLowerCase() + ". \n Description:\n" + currentEnemy[4];
     enemyStats.innerText = "\n" + currentEnemy[0] + ":\n" + "HP: " + currentEnemy[1] + "\nDamage: x" + currentEnemy[2] + "\nDefense: x" + currentEnemy[3];
 };
-/*TODO: Add a clearEnemy() function to remove the enemy description and return button1 upon defeat */
+
 
 
 function combat() {
@@ -141,7 +144,7 @@ function combat() {
 
     /* Enemy Attack */
     if (currentEnemy[1] <= 0) {
-        text3.innerText = "You defeated the " + currentEnemy[0] + ".";
+        text3.innerText = "\nYou defeated the " + currentEnemy[0].toLowerCase() + ".";
         playerDamage.insertAdjacentElement("afterend", text3);
         clearEnemy();
     }
@@ -154,11 +157,25 @@ function combat() {
             enemyDamage.innerText = "The " + currentEnemy[0] + " attacks, and deals " + enemyAttack + " damage!";
         }
         playerDamage.insertAdjacentElement("afterend", enemyDamage);
+        playerStats.innerText = "\nPlayer:\n" + "HP: " + hp + "\nDamage: x" + attackMult + "\nDefense: x" + defenseMult;
         console.log("Player attack: " + playerAttack + " Enemy Attack: " + enemyAttack + " Your Health: " + hp + " Enemy Health: " + currentEnemy[1]);
     }   
-    
-    
-};
+}
 
+function clearEnemy() {
+    playerDamage.remove();
+    enemyDamage.remove();
+    button2.remove();
+    enemyStats.remove();
+    text3.insertAdjacentElement("afterend", resumeButton);
+}
+
+function resumeTravel() {
+    text2.remove();
+    text3.remove();
+    resumeButton.remove();
+    text1.insertAdjacentElement("afterend", button1);
+    startGame();
+}
 
 
