@@ -39,13 +39,13 @@ const caveExtra = ["with the occasional sound of dripping water", "with long sta
 
 /* Enemies [Name,  HP, Attack, Defense, Description]*/
 dungeonEnemies = [
-    ["Frail skeleton", 10, 0.7, 0.5, "A small skeleton with thin, fragile bones. It wields a sharpened femur, and is ready to fight"], 
-    ["Young goblin", 15, 1, 0.7, "A small goblin, barely past maturity. While their size is small, they wield a razor-sharp spear that's more than capable of ending a human life."]
+    ["Frail skeleton", 40, 0.7, 0.5, "A small skeleton with thin, fragile bones. It wields a sharpened femur, and is ready to fight"], 
+    ["Young goblin", 70, 1, 0.7, "A small goblin, barely past maturity. While their size is small, they wield a razor-sharp spear that's more than capable of ending a human life."]
 ];
 
 caveEnemies = [
-    ["Cave slime", 20, 0.2, 2.0, "A large, robust slime. It has a murky, pale color, but seems to sparkle in the light, like a glistening pool hidden deep under the earth."],
-    ["Stone spider", 10, 1.5, 0.4, "A giant spider with long, spindly legs made of stone. Its venom is capable of causing immense injury and death, but it fragile limbs make it rather weak to attacks."]
+    ["Cave slime", 50, 0.4, 2.0, "A large, robust slime. It has a murky, pale color, but seems to sparkle in the light, like a glistening pool hidden deep under the earth."],
+    ["Stone spider", 50, 1.5, 0.4, "A giant spider with long, spindly legs made of stone. Its venom is capable of causing immense injury and death, but it fragile limbs make it rather weak to attacks."]
 ]
 
 
@@ -128,15 +128,35 @@ function spawnEnemy() {
 
 
 function combat() {
-    playerAttack = (Math.floor(Math.random() * 11) * attackMult) / currentEnemy[3];
+    /* Player Attack */
+    playerAttack = Math.floor((Math.random() * 11) * attackMult / currentEnemy[3]);
+    currentEnemy[1] -= playerAttack;
+    if (playerAttack === 0) {
+        playerDamage.innerText = "You try to attack, but it has no effect!";
+    } else {
+        playerDamage.innerText = "You attack, and deal " + playerAttack + " damage!";
+    };
+    enemyStats.innerText = "\n" + currentEnemy[0] + ":\n" + "HP: " + currentEnemy[1] + "\nDamage: x" + currentEnemy[2] + "\nDefense: x" + currentEnemy[3];
     playerStats.insertAdjacentElement("afterend", playerDamage);
-    if (currentEnemy[1] < 1) {
-        text3.innerText = "You defeated " + currentEnemy;
-        playerStats.insertAdjacentElement("afterend", text3);
+
+    /* Enemy Attack */
+    if (currentEnemy[1] <= 0) {
+        text3.innerText = "You defeated the " + currentEnemy[0] + ".";
+        playerDamage.insertAdjacentElement("afterend", text3);
         clearEnemy();
     }
-    enemyAttack = (Math.floor(Math.random() * 11) * currentEnemy[2]) / defenseMult;
-    playerStats.insertAdjacentElement("afterend", enemyDamage);
+    else {
+        enemyAttack = Math.floor((Math.random() * 11) * currentEnemy[2] / defenseMult);
+        hp -= enemyAttack;
+        if (enemyAttack === 0) {
+            enemyDamage.innerText = "The " + currentEnemy[0] + " attacks, but you manage to dodge it!";
+        } else {
+            enemyDamage.innerText = "The " + currentEnemy[0] + " attacks, and deals " + enemyAttack + " damage!";
+        }
+        playerDamage.insertAdjacentElement("afterend", enemyDamage);
+        console.log("Player attack: " + playerAttack + " Enemy Attack: " + enemyAttack + " Your Health: " + hp + " Enemy Health: " + currentEnemy[1]);
+    }   
+    
     
 };
 
