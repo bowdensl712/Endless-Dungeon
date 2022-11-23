@@ -10,13 +10,29 @@ html, body {
     height: 100%;
 }
 
-#container {
+#container, #inventoryContainer {
     width: 600px;
     height: auto;
     aspect-ratio: 1/1;
     margin: 0 auto;
     border: 2px solid white;
 }
+
+#inventoryContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+}
+
+#itemBar {
+    border-right: 2px solid white;
+}
+
+#equipBar {
+    border-left: 2px solid white;
+}
+
 
 button {
     background-color: #1F1E1F;

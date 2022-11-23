@@ -13,8 +13,26 @@ let playerDamage = document.createElement("p");
 let enemyDamage = document.createElement("p");
 let text3 = document.createElement("p");
 let resumeButton = document.createElement("button");
-resumeButton.setAttribute("onclick", "resumeTravel()")
+resumeButton.setAttribute("onclick", "resumeTravel()");
 resumeButton.innerText = "Resume Travel";
+
+//Inventory System
+let inventoryButton = document.createElement("button");
+inventoryButton.setAttribute("onclick", "openInventory()");
+inventoryButton.setAttribute("style", "float:right; margin-right:10px; margin-top:-26px");
+inventoryButton.innerText = "Inventory";
+let inventoryContainer = document.createElement("div");
+inventoryContainer.setAttribute("id", "inventoryContainer");
+let inventoryTitle = document.createElement("h1");
+inventoryTitle.innerText = "Inventory";
+let hideInventoryButton = document.createElement("button");
+hideInventoryButton.setAttribute("onclick", "hideInventory()");
+hideInventoryButton.setAttribute("style", "float:right; margin-right: 10px");
+hideInventoryButton.innerText = "Inventory";
+let itemBar = document.createElement("div");
+itemBar.setAttribute("id", "itemBar")
+let equipBar = document.createElement("div");
+equipBar.setAttribute("id", "equipBar")
 
 /* Game Stats */
 let name;
@@ -22,7 +40,7 @@ let hp = 100;
 let attackMult = 1;
 let defenseMult = 1;
 let roomNum = 1;
-let currentEnemy = ["TEST", 10, 1, 1, "test description"];
+let currentEnemy;
 
 /* Room Descriptions */
 const roomType = ["dungeon", "cave"];
@@ -85,6 +103,7 @@ button1.innerText = "I was born for this.";
 button1.setAttribute('onclick', 'startGame()');
 playerStats.innerText = "\nPlayer:\n" + "HP: " + hp + "\nDamage: x" + attackMult + "\nDefense: x" + defenseMult;
 container.append(title, text1, button1, playerStats);
+title.insertAdjacentElement("afterend", inventoryButton)
 
 
 
@@ -179,3 +198,17 @@ function resumeTravel() {
 }
 
 
+// New Inventory system
+
+function openInventory() {
+    container.remove();
+    document.body.append(inventoryContainer);
+    inventoryContainer.append(itemBar, equipBar);
+    itemBar.append(inventoryTitle);
+    equipBar.append(hideInventoryButton);
+}
+
+function hideInventory() {
+    inventoryContainer.remove();
+    document.body.append(container);
+}
