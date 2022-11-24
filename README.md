@@ -2,7 +2,7 @@
 簡単なDungeon crawlerゲーム。JavaScriptの練習として作っています。
 
 
-# ~Goals~
+# Goals
 General-
     -Append and customize HTML elements using JavaScript. (Done!)
     -Randomly generate enemies as the player moves forward (Done!)
@@ -37,9 +37,10 @@ Randomized rooms-
 
 
 Devlog (Problems and Solutions)-
+    
     Problem: Since copied array entries are shallow copies, every time currentEnemy took damage, the HP of the base enemy changes.
     Solution: Used JSON.parse(JSON.stringify() to create a deep copy of the array.
 
-    Problem: How to display the inventory text without messing up the current progress in travel/combat?
-    Solution: Just hide the container <div> and replace it with another inventory <div>.
+Problem: How to display the inventory text without messing up the current progress in travel/combat?
+Solution: Just hide the container div and replace it with another inventory div.
     
