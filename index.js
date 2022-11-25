@@ -109,6 +109,15 @@ armorList = [
 ];
 
 
+/* Item Ideas-
+Beer- Turns all text to italics/changes color for # turns
+
+
+
+
+
+*/
+
 
 
 
