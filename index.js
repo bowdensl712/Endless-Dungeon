@@ -1,17 +1,17 @@
 /* HTML Elements */
 const container = document.getElementById('container');
 let title = document.createElement("h1");
-let text1 = document.createElement("p");
-let button1 = document.createElement("button");
-let text2 = document.createElement("p");
+let roomDescription = document.createElement("p");
+let playButton = document.createElement("button");
+let enemyDescription = document.createElement("p");
 let playerStats = document.createElement("p");
 let enemyStats = document.createElement("p");
-let button2 = document.createElement("button");
-button2.setAttribute("onclick", "combat()");
-button2.innerText = "Attack";
+let attackButton = document.createElement("button");
+attackButton.setAttribute("onclick", "combat()");
+attackButton.innerText = "Attack";
 let playerDamage = document.createElement("p");
 let enemyDamage = document.createElement("p");
-let text3 = document.createElement("p");
+let victoryText = document.createElement("p");
 let resumeButton = document.createElement("button");
 resumeButton.setAttribute("onclick", "resumeTravel()");
 resumeButton.innerText = "Resume Travel";
@@ -134,10 +134,10 @@ function selectRoomType() {
 
 function roomDesc() {
     if (currentRoomType === "dungeon") {
-        text1.innerText = random(descOpen) + ' ' + random(dungeonAdj) + ' ' + random(dungeonNoun) + ', ' + random(dungeonExtra) + '.'
+        roomDescription.innerText = random(descOpen) + ' ' + random(dungeonAdj) + ' ' + random(dungeonNoun) + ', ' + random(dungeonExtra) + '.'
     }
     else if (currentRoomType === "cave") {
-        text1.innerText = random(descOpen) + ' ' + random(caveAdj) + ' ' + random(caveNoun) + ', ' + random(caveExtra) + '.'
+        roomDescription.innerText = random(descOpen) + ' ' + random(caveAdj) + ' ' + random(caveNoun) + ', ' + random(caveExtra) + '.'
     }
     else {console.error("roomDesc() isn't working correctly!")}
 }
@@ -149,11 +149,11 @@ function roomDesc() {
 /* Opening Screen */
 
 title.innerText = "Dungeon Crawler";
-text1.innerText = "You are a fledgling adventurer, about to step foot into the endless dungeon of doom. \n\n You will not survive this journey, but perhaps you will find glory before your doom. \n\nAre you ready?";
-button1.innerText = "I was born for this.";
-button1.setAttribute('onclick', 'startGame()');
+roomDescription.innerText = "You are a fledgling adventurer, about to step foot into the endless dungeon of doom. \n\n You will not survive this journey, but perhaps you will find glory before your doom. \n\nAre you ready?";
+playButton.innerText = "I was born for this.";
+playButton.setAttribute('onclick', 'startGame()');
 playerStats.innerText = "\nPlayer:\n" + "HP: " + hp + "\nDamage: x" + attackMult + "\nDefense: x" + defenseMult;
-container.append(title, text1, button1, playerStats);
+container.append(title, roomDescription, playButton, playerStats);
 title.insertAdjacentElement("afterend", inventoryButton)
 
 
@@ -164,7 +164,7 @@ title.insertAdjacentElement("afterend", inventoryButton)
 
 /* Basic Game Loop */
 function startGame() {
-    button1.innerText = "Continue forward";
+    playButton.innerText = "Continue forward";
     title.innerText = "Room " + roomNum;
     roomNum ++;
     if (roomTypeDuration < 1) {selectRoomType()};
@@ -190,11 +190,11 @@ function selectEnemy() {
 
 /* Spawns the enemy */
 function spawnEnemy() {
-    button1.remove();
-    playerStats.insertAdjacentElement("beforebegin", text2);
-    playerStats.insertAdjacentElement("beforebegin", button2);
+    playButton.remove();
+    playerStats.insertAdjacentElement("beforebegin", enemyDescription);
+    playerStats.insertAdjacentElement("beforebegin", attackButton);
     playerStats.insertAdjacentElement("beforebegin", enemyStats);
-    text2.innerText = "\nSuddenly, you see a " + currentEnemy[0].toLowerCase() + ". \n Description:\n" + currentEnemy[4];
+    enemyDescription.innerText = "\nSuddenly, you see a " + currentEnemy[0].toLowerCase() + ". \n Description:\n" + currentEnemy[4];
     enemyStats.innerText = "\n" + currentEnemy[0] + ":\n" + "HP: " + currentEnemy[1] + "\nDamage: x" + currentEnemy[2] + "\nDefense: x" + currentEnemy[3];
 };
 
@@ -214,8 +214,8 @@ function combat() {
 
     /* Enemy Attack */
     if (currentEnemy[1] <= 0) {
-        text3.innerText = "\nYou defeated the " + currentEnemy[0].toLowerCase() + ".";
-        playerDamage.insertAdjacentElement("afterend", text3);
+        victoryText.innerText = "\nYou defeated the " + currentEnemy[0].toLowerCase() + ".";
+        playerDamage.insertAdjacentElement("afterend", victoryText);
         clearEnemy();
     }
     else {
@@ -235,16 +235,16 @@ function combat() {
 function clearEnemy() {
     playerDamage.remove();
     enemyDamage.remove();
-    button2.remove();
+    attackButton.remove();
     enemyStats.remove();
-    text3.insertAdjacentElement("afterend", resumeButton);
+    victoryText.insertAdjacentElement("afterend", resumeButton);
 }
 
 function resumeTravel() {
-    text2.remove();
-    text3.remove();
+    enemyDescription.remove();
+    victoryText.remove();
     resumeButton.remove();
-    text1.insertAdjacentElement("afterend", button1);
+    roomDescription.insertAdjacentElement("afterend", playButton);
     startGame();
 }
 
