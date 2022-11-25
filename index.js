@@ -23,16 +23,30 @@ inventoryButton.setAttribute("style", "float:right; margin-right:10px; margin-to
 inventoryButton.innerText = "Inventory";
 let inventoryContainer = document.createElement("div");
 inventoryContainer.setAttribute("id", "inventoryContainer");
-let inventoryTitle = document.createElement("h1");
-inventoryTitle.innerText = "Inventory";
 let hideInventoryButton = document.createElement("button");
 hideInventoryButton.setAttribute("onclick", "hideInventory()");
 hideInventoryButton.setAttribute("style", "float:right; margin-right: 10px");
 hideInventoryButton.innerText = "Inventory";
 let itemBar = document.createElement("div");
-itemBar.setAttribute("id", "itemBar")
+itemBar.setAttribute("id", "itemBar");
 let equipBar = document.createElement("div");
-equipBar.setAttribute("id", "equipBar")
+equipBar.setAttribute("id", "equipBar");
+let inventoryTitle = document.createElement("h1"); //Inventory
+inventoryTitle.innerText = "Inventory";
+let equipmentTitle = document.createElement("h1"); //Equipment (Current weapon, armor, etc.)
+equipmentTitle.innerText = "Equipment";
+let wornHelmet = document.createElement("p"); 
+wornHelmet.setAttribute("class", "equipment");
+let wornChest = document.createElement("p");
+wornChest.setAttribute("class", "equipment");
+let wornArms = document.createElement("p");
+wornArms.setAttribute("class", "equipment");
+let wornLegs = document.createElement("p");
+wornLegs.setAttribute("class", "equipment");
+let wornAccessory = document.createElement("p");
+wornAccessory.setAttribute("class", "equipment");
+let wornWeapon = document.createElement("p");
+wornWeapon.setAttribute("class", "equipment");
 
 /* Game Stats */
 let name;
@@ -41,6 +55,17 @@ let attackMult = 1;
 let defenseMult = 1;
 let roomNum = 1;
 let currentEnemy;
+
+
+//Equip Menu
+let equippedHelmet = [];
+let equippedChest = [];
+let equippedArms = [];
+let equippedLegs = [];
+let equippedAccessory = [];
+let equippedWeapon = [];
+
+
 
 /* Room Descriptions */
 const roomType = ["dungeon", "cave"];
@@ -256,7 +281,13 @@ function openInventory() {
     document.body.append(inventoryContainer);
     inventoryContainer.append(itemBar, equipBar);
     itemBar.append(inventoryTitle);
-    equipBar.append(hideInventoryButton);
+    equipBar.append(hideInventoryButton, equipmentTitle, wornHelmet, wornChest, wornArms, wornLegs, wornAccessory, wornWeapon);
+    wornHelmet.innerText = "Head: " + equippedHelmet[0];
+    wornChest.innerText = "Chest: " + equippedChest[0];
+    wornArms.innerText = "Arms: " + equippedArms[0];
+    wornLegs.innerText = "Legs: " + equippedLegs[0];
+    wornAccessory.innerText = "Accessory: " + equippedAccessory[0];
+    wornWeapon.innerText = "Weapon: " + equippedWeapon[0];
 }
 
 function hideInventory() {
