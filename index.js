@@ -277,6 +277,10 @@ function resumeTravel() {
 
 
 // New Inventory system
+function equipItem(element) {
+    itemData = element.getAttribute("data-item");
+};
+
 
 function openInventory() {
     container.remove();
@@ -285,8 +289,9 @@ function openInventory() {
     inventory.forEach((element) => {
         let li = document.createElement("li");
         li.textContent = element[0];
-        li.setAttribute("onclick", "equipItem()"); //TODO: Make equipItem() select the current item, check its type, equip, and remove from inventory
+        li.setAttribute("onclick", "equipItem(this)"); //TODO: Make equipItem() select the current item, check its type, equip, and remove from inventory
         li.setAttribute("style", "cursor:pointer");
+        li.setAttribute("data-item", JSON.stringify(element));
         console.log(element[0]);
         inventoryContents.append(li);
     });

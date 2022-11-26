@@ -49,4 +49,7 @@ Problem: How to display the inventory text without messing up the current progre
 Solution: Just hide the container div and replace it with another inventory div.  
     
 Problem: Upon opening the inventory page, all the contents are populated in an unordered list. However, if you close and reopen the inventory, the contents are listed twice.  
-Solution: Upon closing the inventory, a 'while' loop checks if inventoryContents.firstChild is 'true', then removes said child one-by-one, until there are none left.
+Solution: Upon closing the inventory, a 'while' loop checks if inventoryContents.firstChild is 'true', then removes said child one-by-one, until there are none left.  
+
+Problem: Each inventory item has an onClick attribute that triggers equipItem(), but how can it know which item was clicked?  
+Solution: First, I stored the item's full data in the 'data-item' attribute. Then I used 'onclick(this)' to pass the clicked element as an argument to equipItem(), and with that argument I could now select the specific 'data-item' attribute to recover the array data.  
