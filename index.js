@@ -56,7 +56,38 @@ let attackMult = 1;
 let defenseMult = 1;
 let roomNum = 1;
 let currentEnemy;
-let inventory = [["Katana", 1.8, 1, 0, "A simple blade with a slight curve."], ["Katana", 1.8, 1, 0, "A simple blade with a slight curve."], ["Katana", 1.8, 1, 0, "A simple blade with a slight curve."], ["Katana", 1.8, 1, 0, "A simple blade with a slight curve."]];
+let inventory = [
+    ["Rusty sword", 1.1, 1, 0, "A rusty old sword. In its current condition, it serves little purpose."], 
+    ["Iron sword", 1.5, 1, 0, "A typical iron sword. Somewhat worn, but still sharp enough to cut"], 
+    ["Flail", 1.8, 1, 0, "A heavy lump of iron, attached to a stick by a chain."], 
+    ["Katana", 1.8, 1, 0, "A simple blade with a slight curve."], 
+    ["Iron glaive", 2.5, 1, 0, "A long pole with a large, crescent-shaped blade on the end."], 
+    ["Goblin dagger", 1.6, 1, 0, "A small, shoddily crafted dagger. Nonetheless, it has been sharpened to a razor edge, and the tip is slick with lethal venom"], 
+    ["Battle axe", 1.8, 1, 0, "A two-handed axe with a large iron head, covered in dark stains."], 
+    ["Rapier", 1.6, 1, 0, "A long pointed blade. Light and easy to wield with deadly efficiency."], 
+    ["Wooden staff", 1, 1.3, 0, "A long wooden pole. Not particularly good in offense, but surprisingly good at defense."], 
+    ["Noble sword", 1.7, 1, 0, "A finely crafted blade, with ornate designs and a deadly edge."],
+    ["Iron helmet", 1, 1.3, 1, "A simple iron helmet. Sturdy enough."], 
+    ["Fancy helmet", 1, 1.6, 1, "An ornate helmet. Below the decorations and engravings, it provides ample protection."],
+    ["Red bandana", 1, 1, 1, "A square piece of red cloth. Provides no meaningful protection, but the pop of color compliments your outfit."],
+    ["Horned helmet", 1.1, 1.3, 1, "An iron helmet, with two large goat horns attached at each temple."],
+    ["Iron chestplate", 1, 1.2, 2,"A sturdy iron chestplate. A simple design, but it gets the job done."], 
+    ["Noble's chestplate", 1, 1.3, 2,"A finely crafted chestplate, decorated with ornate floral designs."], 
+    ["Goblin chestplate", 1.3, 1.1, 2,"Shabby salvaged chestplate. It's too small to wear comfortably and doesn't protect much, but it's strapped with vials of poison that may come in handy..."], 
+    ["Plate mail", 0.8, 1.6, 2,"A tremendously sturdy chestplate, providing near-complete protection against damage, at the expense of mobility."], 
+    ["Spiked iron chestplate", 1.2, 1.2, 2,"An iron chestplate, covered in sharp spikes."],
+    ["Cloth gambeson", 1, 1.1, 2, "A thick cloth gambeson, providing some degree of protection against strikes, cuts and stabs."],
+    ["Leather gloves", 1, 1.1, 3, "Gloves of thick cowhide."],
+    ["Iron gauntlets", 1, 1.3, 3, "Gauntlets of iron, lined with leather."],
+    ["Ceremonial gloves", 1.2, 1.0, 3, "Long gloves of a silky, smooth material. While heavenly soft to the touch, it also gives a surprising amount of grip to your hands."],
+    ["Cloth pants", 1, 1.1, 4, "Simple cloth pants. The dye has faded after many washes, and there are a few stains and tears at the fringes."],
+    ["Iron leggings", 1, 1.3, 4, "Plates of iron to protect your legs."],
+    ["Sapphire necklace", 1, 1, 5, "A gold necklace, with a striking sapphire stone at its center."],
+    ["Silver chain", 1, 1, 5, "A simple silver chain. Can be worn as a sign of status for a lower-class citizen."],
+    ["Emblem ring", 1, 1, 5, "A golden signet ring, emblazoned with the family crest of a house you're unfamiliar with."]
+
+
+];
 //TODO: Replace filler inventory with a proper management system.
 
 //Equip Menu
@@ -66,7 +97,6 @@ let equippedArms = [];
 let equippedLegs = [];
 let equippedAccessory = [];
 let equippedWeapon = [];
-
 
 
 /* Room Descriptions */
@@ -277,8 +307,28 @@ function resumeTravel() {
 
 
 // New Inventory system
-function equipItem(element) {
-    itemData = element.getAttribute("data-item");
+function equipItem(element) { //TODO: Add a check to each item type, to see if there is already something equipped. If there is, return it to the inventory.
+    itemData = JSON.parse(element.getAttribute("data-item"));
+    if (itemData[3] === 0) {
+        equippedWeapon = itemData;
+        wornWeapon.textContent = "Weapon: " + equippedWeapon[0];
+    } else if (itemData[3] === 1) {
+        equippedHelmet = itemData;
+        wornHelmet.textContent = "Head: " + equippedHelmet[0];
+    } else if (itemData[3] === 2) {
+        equippedChest = itemData;
+        wornChest.innerText = "Chest: " + equippedChest[0];
+    } else if (itemData[3] === 3) {
+        equippedArms = itemData;
+        wornArms.innerText = "Arms: " + equippedArms[0];
+    } else if (itemData[3] === 4) {
+        equippedLegs = itemData;
+        wornLegs.innerText = "Legs: " + equippedLegs[0];
+    } else if (itemData[3] === 5) {
+        equippedAccessory = itemData;
+        wornAccessory.innerText = "Accessory: " + equippedAccessory[0];
+    } else {console.error("Something's wrong with equipItem()!")};
+    element.remove();
 };
 
 
@@ -289,10 +339,9 @@ function openInventory() {
     inventory.forEach((element) => {
         let li = document.createElement("li");
         li.textContent = element[0];
-        li.setAttribute("onclick", "equipItem(this)"); //TODO: Make equipItem() select the current item, check its type, equip, and remove from inventory
+        li.setAttribute("onclick", "equipItem(this)");
         li.setAttribute("style", "cursor:pointer");
         li.setAttribute("data-item", JSON.stringify(element));
-        console.log(element[0]);
         inventoryContents.append(li);
     });
     itemBar.append(inventoryTitle, inventoryContents);
