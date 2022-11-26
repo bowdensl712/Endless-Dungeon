@@ -33,6 +33,7 @@ let equipBar = document.createElement("div");
 equipBar.setAttribute("id", "equipBar");
 let inventoryTitle = document.createElement("h1"); //Inventory
 inventoryTitle.innerText = "Inventory";
+let inventoryContents = document.createElement("ul");
 let equipmentTitle = document.createElement("h1"); //Equipment (Current weapon, armor, etc.)
 equipmentTitle.innerText = "Equipment";
 let wornHelmet = document.createElement("p"); 
@@ -55,7 +56,8 @@ let attackMult = 1;
 let defenseMult = 1;
 let roomNum = 1;
 let currentEnemy;
-
+let inventory = [["Katana", 1.8, 1, 0, "A simple blade with a slight curve."], ["Katana", 1.8, 1, 0, "A simple blade with a slight curve."], ["Katana", 1.8, 1, 0, "A simple blade with a slight curve."], ["Katana", 1.8, 1, 0, "A simple blade with a slight curve."]];
+//TODO: Replace filler inventory with a proper management system.
 
 //Equip Menu
 let equippedHelmet = [];
@@ -97,20 +99,20 @@ caveEnemies = [
 
 //Weapons [Name, attackMult, defenseMult, Description]
 weaponList = [
-    ["Rusty sword", 1.1, 1, "A rusty old sword. In its current condition, it serves little purpose."], 
-    ["Iron sword", 1.5, 1, "A typical iron sword. Somewhat worn, but still sharp enough to cut"], 
-    ["Flail", 1.8, 1, "A heavy lump of iron, attached to a stick by a chain."], 
-    ["Katana", 1.8, 1, "A simple blade with a slight curve."], 
-    ["Iron glaive", 2.5, 1, "A long pole with a large, crescent-shaped blade on the end."], 
-    ["Goblin dagger", 1.6, 1, "A small, shoddily crafted dagger. Nonetheless, it has been sharpened to a razor edge, and the tip is slick with lethal venom"], 
-    ["Battle axe", 1.8, 1, "A two-handed axe with a large iron head, covered in dark stains."], 
-    ["Rapier", 1.6, 1, "A long pointed blade. Light and easy to wield with deadly efficiency."], 
-    ["Wooden staff", 1, 1.3, "A long wooden pole. Not particularly good in offense, but surprisingly good at defense."], 
-    ["Noble sword", 1.7, 1, "A finely crafted blade, with ornate designs and a deadly edge."]
+    ["Rusty sword", 1.1, 1, 0, "A rusty old sword. In its current condition, it serves little purpose."], 
+    ["Iron sword", 1.5, 1, 0, "A typical iron sword. Somewhat worn, but still sharp enough to cut"], 
+    ["Flail", 1.8, 1, 0, "A heavy lump of iron, attached to a stick by a chain."], 
+    ["Katana", 1.8, 1, 0, "A simple blade with a slight curve."], 
+    ["Iron glaive", 2.5, 1, 0, "A long pole with a large, crescent-shaped blade on the end."], 
+    ["Goblin dagger", 1.6, 1, 0, "A small, shoddily crafted dagger. Nonetheless, it has been sharpened to a razor edge, and the tip is slick with lethal venom"], 
+    ["Battle axe", 1.8, 1, 0, "A two-handed axe with a large iron head, covered in dark stains."], 
+    ["Rapier", 1.6, 1, 0, "A long pointed blade. Light and easy to wield with deadly efficiency."], 
+    ["Wooden staff", 1, 1.3, 0, "A long wooden pole. Not particularly good in offense, but surprisingly good at defense."], 
+    ["Noble sword", 1.7, 1, 0, "A finely crafted blade, with ornate designs and a deadly edge."]
 ];
 
 //Armors [Name, attackMult, defenseMult, armorType, desc]
-// armorTypes- 1: Helmet, 2: Chest, 3: Arms, 4: Legs, 5: Accessory 
+// Item Types- 0: weapon, 1: Helmet, 2: Chest, 3: Arms, 4: Legs, 5: Accessory 
 armorList = [
     ["Iron helmet", 1, 1.3, 1, "A simple iron helmet. Sturdy enough."], 
     ["Fancy helmet", 1, 1.6, 1, "An ornate helmet. Below the decorations and engravings, it provides ample protection."],
@@ -280,7 +282,15 @@ function openInventory() {
     container.remove();
     document.body.append(inventoryContainer);
     inventoryContainer.append(itemBar, equipBar);
-    itemBar.append(inventoryTitle);
+    inventory.forEach((element) => {
+        let li = document.createElement("li");
+        li.textContent = element[0];
+        li.setAttribute("onclick", "equipItem()"); //TODO: Make equipItem() select the current item, check its type, equip, and remove from inventory
+        li.setAttribute("style", "cursor:pointer");
+        console.log(element[0]);
+        inventoryContents.append(li);
+    });
+    itemBar.append(inventoryTitle, inventoryContents);
     equipBar.append(hideInventoryButton, equipmentTitle, wornHelmet, wornChest, wornArms, wornLegs, wornAccessory, wornWeapon);
     wornHelmet.innerText = "Head: " + equippedHelmet[0];
     wornChest.innerText = "Chest: " + equippedChest[0];
@@ -288,9 +298,14 @@ function openInventory() {
     wornLegs.innerText = "Legs: " + equippedLegs[0];
     wornAccessory.innerText = "Accessory: " + equippedAccessory[0];
     wornWeapon.innerText = "Weapon: " + equippedWeapon[0];
+    
 }
 
 function hideInventory() {
+    while (inventoryContents.firstChild) {
+        inventoryContents.removeChild(inventoryContents.firstChild)
+    };
     inventoryContainer.remove();
     document.body.append(container);
+    
 }

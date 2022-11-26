@@ -21,7 +21,9 @@ Inventory Management-
     -Loot should have effects on stats (Increase or decrease attack, defense, health, etc.)  
     -Store potential loot spawns in an array (with the name, type, effects, etc.)  
     -Some loot should be purely aesthetic/roleplay focused (e.g trinkets)  
+    -When hovering over an inventory item (equipped or not) it should display the stats and description.  
     -Bonus: Some items should change the game itself (e.g an alcoholic drink that makes the text wavy)  
+    
 
 
 Random Events-  
@@ -36,6 +38,8 @@ Randomized rooms-
     -Enemy types and loot vary based on room type.  
 
 
+
+
 Devlog (Problems and Solutions)-  
     
 Problem: Since copied array entries are shallow copies, every time currentEnemy took damage, the HP of the base enemy changes.  
@@ -44,3 +48,5 @@ Solution: Used JSON.parse(JSON.stringify() to create a deep copy of the array.
 Problem: How to display the inventory text without messing up the current progress in travel/combat?  
 Solution: Just hide the container div and replace it with another inventory div.  
     
+Problem: Upon opening the inventory page, all the contents are populated in an unordered list. However, if you close and reopen the inventory, the contents are listed twice.  
+Solution: Upon closing the inventory, a 'while' loop checks if inventoryContents.firstChild is 'true', then removes said child one-by-one, until there are none left.
