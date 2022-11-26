@@ -307,7 +307,7 @@ function resumeTravel() {
 
 
 // New Inventory system
-function equipItem(element) { //TODO: Add a check to each item type, to see if there is already something equipped. If there is, return it to the inventory.
+function equipItem(element) { 
     itemData = JSON.parse(element.getAttribute("data-item"));
     if (itemData[3] === 0) {
         equippedWeapon = itemData;
@@ -328,7 +328,16 @@ function equipItem(element) { //TODO: Add a check to each item type, to see if t
         equippedAccessory = itemData;
         wornAccessory.innerText = "Accessory: " + equippedAccessory[0];
     } else {console.error("Something's wrong with equipItem()!")};
-    element.remove();
+
+/*Note: Removing equipped items from the inventory array is difficult.
+Can't remove/re-add them based on index, since it changes as the array is changed.
+Can't give elements a "hidden" class, because the elements are erased whenever the menu is closed.
+
+Solution:
+TODO: Rework the menu to only add/erase list items when the inventory changes.
+TODO: Add a "Hidden" tag to the new list items when equipped, and remove when unequipped.
+TODO: Hide all elements with the "Hidden" tag.
+*/
 };
 
 
