@@ -40,7 +40,9 @@ Randomized rooms-
 
 
 
-Devlog (Problems and Solutions)-  
+
+
+# Devlog (Problems and Solutions)-  
     
 Problem: Since copied array entries are shallow copies, every time currentEnemy took damage, the HP of the base enemy changes.  
 Solution: Used JSON.parse(JSON.stringify() to create a deep copy of the array.  

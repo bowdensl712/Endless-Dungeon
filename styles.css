@@ -33,6 +33,10 @@ html, body {
     border-left: 2px solid white;
 }
 
+.equipment {
+    margin: 20px 0 20px 12px;   
+    font-size: 1rem;
+}
 
 button {
     background-color: #1F1E1F;

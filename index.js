@@ -91,12 +91,12 @@ let inventory = [
 //TODO: Replace filler inventory with a proper management system.
 
 //Equip Menu
-let equippedHelmet = [];
-let equippedChest = [];
-let equippedArms = [];
-let equippedLegs = [];
-let equippedAccessory = [];
-let equippedWeapon = [];
+let equippedHelmet = [" "];
+let equippedChest = [" "];
+let equippedArms = [" "];
+let equippedLegs = [" "];
+let equippedAccessory = [" "];
+let equippedWeapon = [" "];
 
 
 /* Room Descriptions */
