@@ -49,6 +49,8 @@ wornAccessory.setAttribute("class", "equipment");
 let wornWeapon = document.createElement("p");
 wornWeapon.setAttribute("class", "equipment");
 
+
+
 /* Game Stats */
 let name;
 let hp = 100;
@@ -214,6 +216,10 @@ container.append(title, roomDescription, playButton, playerStats);
 title.insertAdjacentElement("afterend", inventoryButton)
 
 
+//Initialize Inventory on start
+initializeInventory();
+
+
 
 
 
@@ -341,8 +347,7 @@ TODO: Hide all elements with the "Hidden" tag.
 };
 
 
-function openInventory() {
-    container.remove();
+function initializeInventory() {
     document.body.append(inventoryContainer);
     inventoryContainer.append(itemBar, equipBar);
     inventory.forEach((element) => {
@@ -361,13 +366,16 @@ function openInventory() {
     wornLegs.innerText = "Legs: " + equippedLegs[0];
     wornAccessory.innerText = "Accessory: " + equippedAccessory[0];
     wornWeapon.innerText = "Weapon: " + equippedWeapon[0];
+    inventoryContainer.remove();
+}
+
+function openInventory() {
+    container.remove();
+    document.body.append(inventoryContainer);
     
 }
 
 function hideInventory() {
-    while (inventoryContents.firstChild) {
-        inventoryContents.removeChild(inventoryContents.firstChild)
-    };
     inventoryContainer.remove();
     document.body.append(container);
     
